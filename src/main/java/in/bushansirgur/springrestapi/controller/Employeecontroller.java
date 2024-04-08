@@ -1,5 +1,6 @@
 package in.bushansirgur.springrestapi.controller;
 import in.bushansirgur.springrestapi.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import in.bushansirgur.springrestapi.model.Employee;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,7 +63,7 @@ public class Employeecontroller {
     }
 
     @PostMapping(value = "/employees")
-    public Employee saveEmployee(@RequestBody Employee employee){
+    public Employee saveEmployee(@Valid @RequestBody Employee employee){
        return eService.saveEmployee(employee);
     }
 
