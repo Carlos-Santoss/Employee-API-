@@ -3,8 +3,12 @@ import in.bushansirgur.springrestapi.model.Employee;
 
 import in.bushansirgur.springrestapi.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+//import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +41,9 @@ public class EmployeeServiceimpl implements EmployeeService {
     private EmployeeRepository eRepository;
 
     @Override
-    public List<Employee> getEmployees() {
-        return eRepository.findAll();
+    public List<Employee> getEmployees(int pageNumber, int pageSize) {
+        Pageable pages = PageRequest.of(pageNumber, pageSize);
+        return eRepository.findAll(pages).getContent();
     }
 
     @Override
@@ -64,4 +69,19 @@ public class EmployeeServiceimpl implements EmployeeService {
     public Employee updateEmployee(Employee employee) {
         return eRepository.save(employee);
     }
+
+    @Override
+    public List<Employee> getEmployeesByName(String name) {
+        return eRepository.findByName(name);
+    }
+    public List<Employee> getEmployeesByNameAndLocation(String name,String location) {
+        return eRepository.findByNameAndLocation(name,location);
+    }
+
+    @Override
+    public List<Employee>getEmployeesByKeyword(String name) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        return eRepository.findByNameContaining(name, sort);
+    }
+
 }

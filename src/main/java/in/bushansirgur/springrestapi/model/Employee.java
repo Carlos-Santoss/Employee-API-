@@ -1,9 +1,8 @@
 package in.bushansirgur.springrestapi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,7 +28,7 @@ public class Employee {
     private Long id;
     //@JsonProperty("full_name") como o atributo será mostrado no Json de resposta
     //@Column(name = "name" )
-    @NotNull( message = "Nome nao pode ser nulo")
+    @NotBlank( message = "Nome nao pode ser nulo")
     private String name;
     //@JsonIgnore Será ignorado no payload de resposta
     //@Column(name = "age" )
@@ -37,9 +36,10 @@ public class Employee {
     //@Column(name = "location" )
     private String location;
     //@Column(name = "email" )
+    @Email(message="Por favor, insira um email valido") //Essa annotation verifica se o email enviado pelo body é valido
     private String email;
     //@Column(name = "department" )
-    @NotNull(message = "Departamento nao pode ser nulo")
+    @NotBlank(message = "Departamento nao pode ser nulo")
     private String department;
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)// esse aqui vamos manter pois queremos o valor diferente no bd e no atributo
